@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include <netdb.h>
 #include <unistd.h>
+#include <string.h>
 
 #define PORT 2828
 
@@ -28,26 +29,27 @@ void validate_arguments(int argc, char *argv[])
 
 void send_request(int fd)
 {
-   char *line = NULL;
+   char *input_line = NULL;
    size_t size;
    ssize_t num;
-   char buffer[1024];
+   char buffer[8192];
    ssize_t bytes_read;
 
-   while ((num = getline(&line, &size, stdin)) >= 0)
+   while ((num = getline(&input_line, &size, stdin)) >= 0)
    {
-      write(fd, line, num);
+      // send input line to server
+      write(fd, input_line, num);
 
-      // MODIFICATION: Read the echoed response from the server using read()
+      // Read the echoed response from the server using read()
       bytes_read = read(fd, buffer, sizeof(buffer) - 1);
-      // MODIFICATION: Check for valid string, format and print
+      // Check for valid string, format and print
       if (bytes_read > 0) {
          buffer[bytes_read] = '\0'; // Null-terminate the string
-         printf("Echo from server: %s", buffer);
+         printf("%s\n", buffer);
       }
    }
 
-   free(line);
+   free(input_line);
 }
 
 int connect_to_server(struct hostent *host_entry)
