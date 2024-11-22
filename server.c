@@ -52,8 +52,11 @@ void handle_request(int nfd)
          // determine if file is in cgi-like directory
          strncat(temp, filename, 9);
          temp[9] = '\0';
-         if (strcmp(temp, "cgi-like/") != 0) {
-            request = "NO PERMISSION";
+         if ((fd = fopen(filename, "r")) == NULL) {
+            response_type = "404 Not Found";
+         }
+         else if (strcmp(temp, "cgi-like/") != 0) {
+            response_type = "NO PERMISSION";
          }
       }
 
@@ -142,12 +145,7 @@ void handle_request(int nfd)
          write(nfd, reply, strlen(reply));
       }
 
-      // if (line_dup_start != NULL) {
-      //    free(line_dup_start);
-      // }
-      // if (input_line != NULL) {
-      //    free(input_line);
-      // }
+      free(line_dup_start);
    }
 
    fclose(network);

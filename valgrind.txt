@@ -1,0 +1,28 @@
+server:
+==27044== HEAP SUMMARY:
+==27044==     in use at exit: 1,136 bytes in 2 blocks
+==27044==   total heap usage: 12 allocs, 10 frees, 4,189 bytes allocated
+==27044== 
+==27044== LEAK SUMMARY:
+==27044==    definitely lost: 0 bytes in 0 blocks
+==27044==    indirectly lost: 0 bytes in 0 blocks
+==27044==      possibly lost: 0 bytes in 0 blocks
+==27044==    still reachable: 1,136 bytes in 2 blocks
+==27044==         suppressed: 0 bytes in 0 blocks
+==27044== Reachable blocks (those to which a pointer was found) are not shown.
+==27044== To see them, rerun with: --leak-check=full --show-leak-kinds=all
+==27044== 
+==27044== Use --track-origins=yes to see where uninitialised values come from
+==27044== For lists of detected and suppressed errors, rerun with: -s
+==27044== ERROR SUMMARY: 1 errors from 1 contexts (suppressed: 0 from 0)
+
+httpd:
+==27489== 
+==27489== HEAP SUMMARY:
+==27489==     in use at exit: 0 bytes in 0 blocks
+==27489==   total heap usage: 65 allocs, 65 frees, 7,353 bytes allocated
+==27489== 
+==27489== All heap blocks were freed -- no leaks are possible
+==27489== 
+==27489== For lists of detected and suppressed errors, rerun with: -s
+==27489== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
