@@ -34,10 +34,12 @@ void handle_request(int nfd)
    char file_contents[8192];
    size_t read_bytes;
    char temp[10];
+   int cgi;
 
    // get input from httpd
    while ((num = getline(&input_line, &size, network)) >= 0)
    {
+      cgi = 0;
       // separate input line into request and filename
       line_dup = strdup(input_line);
       line_dup_start = line_dup;
@@ -55,8 +57,8 @@ void handle_request(int nfd)
          if ((fd = fopen(filename, "r")) == NULL) {
             response_type = "404 Not Found";
          }
-         else if (strcmp(temp, "cgi-like/") != 0) {
-            response_type = "NO PERMISSION";
+         else if (strcmp(temp, "cgi-like/") == 0) {
+            cgi = 1;
          }
       }
 
@@ -124,15 +126,6 @@ void handle_request(int nfd)
          if (fd != NULL) {
             fclose(fd);
          }
-         write(nfd, reply, strlen(reply));
-      }
-      // permission denied
-      else if (strcmp(request, "NO PERMISSION") == 0) {
-         response_type = "403 Permission Denied";
-         sprintf(reply, "HTTP/1.0 %s\r\nContent-Type: text/html\r\nContent-Length: 0\r\n\r\n", response_type);
-
-         // write reply to httpd
-         printf("%s\n", reply);
          write(nfd, reply, strlen(reply));
       }
       // invalid request
